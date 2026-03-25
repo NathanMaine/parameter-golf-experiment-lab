@@ -485,13 +485,17 @@
 
   <nav class="toc" id="toc">
     <div class="toc-title">Sections</div>
-    <a href="#s0">0. Community Leaderboard</a>
-    <a href="#s1">1. Score Timeline</a>
-    <a href="#s2">2. My Experiments</a>
-    <a href="#s3">3. Techniques</a>
-    <a href="#s4">4. Cost & Efficiency</a>
-    <a href="#s5">5. Pod Comparison</a>
-    <a href="#s6">6. Key Discoveries</a>
+    <a href="#s0">0. Leaderboard</a>
+    <a href="#s1a">1a. All Submissions</a>
+    <a href="#s1b">1b. Top 20 Verified</a>
+    <a href="#s1c">1c. Open vs Closed</a>
+    <a href="#s1d">1d. By Technique</a>
+    <a href="#s1">2. My Score Timeline</a>
+    <a href="#s2">3. My Experiments</a>
+    <a href="#s3">4. Techniques</a>
+    <a href="#s4">5. Cost & Efficiency</a>
+    <a href="#s5">6. Pod Comparison</a>
+    <a href="#s6">7. Key Discoveries</a>
   </nav>
 
   <div class="main">
@@ -568,8 +572,44 @@
       <strong style="color: var(--amber);">How to read:</strong> <span class="badge badge--red">CLOSED</span> submissions were flagged by organizers (often illegal TTT). <span class="badge badge--green">OPEN</span> submissions are likely valid. <span class="badge badge--blue">MERGED</span> submissions are official baselines or infrastructure PRs. Data sourced from public submission.json files in each PR. Filter to "Open Only" for the realistic leaderboard.
     </div>
 
-    <!-- S1: Score Timeline -->
-    <div id="s1" class="sec-head">1 — BPB Score Progression (My Runs)</div>
+    <!-- S1a: All Submissions Scatter -->
+    <div id="s1a" class="sec-head">1a — All Submissions by Date (352 PRs)</div>
+    <div class="chart-wrap" style="height: 420px;">
+      <canvas id="allSubmissionsChart"></canvas>
+    </div>
+    <div class="card" style="font-size: 12px; color: var(--text-dim);">
+      Each dot is a submission. Color = BPB range. Hover for details. The competition launched March 18 — watch the BPB scores drop as competitors iterated.
+    </div>
+
+    <!-- S1b: Top 20 Verified -->
+    <div id="s1b" class="sec-head">1b — Top 20 Verified (Open + Under 16MB)</div>
+    <div class="chart-wrap" style="height: 400px;">
+      <canvas id="top20Chart"></canvas>
+    </div>
+    <div class="card" style="font-size: 12px; color: var(--text-dim);">
+      Only submissions that are <span class="badge badge--green">OPEN</span> and under 16MB. This is the realistic leaderboard — what would actually count if scoring closed today.
+    </div>
+
+    <!-- S1c: Open vs Closed -->
+    <div id="s1c" class="sec-head">1c — Open vs Closed: The Illegal TTT Cliff</div>
+    <div class="chart-wrap" style="height: 420px;">
+      <canvas id="openClosedChart"></canvas>
+    </div>
+    <div class="card" style="font-size: 12px; color: var(--text-dim);">
+      <strong style="color: var(--amber);">The story:</strong> Nearly everything below ~1.10 BPB was closed by organizers for using multi-epoch TTT (training on validation data). Issue #402 redrew the map — the real competition is above the cliff.
+    </div>
+
+    <!-- S1d: By Technique -->
+    <div id="s1d" class="sec-head">1d — BPB by Technique Category</div>
+    <div class="chart-wrap" style="height: 450px;">
+      <canvas id="techniqueChart"></canvas>
+    </div>
+    <div class="card" style="font-size: 12px; color: var(--text-dim);">
+      Techniques extracted from submission names. Each box shows the distribution. TTT dominates the low end but most were banned. QAT + architectural tricks (U-Net, XSA, EMA) are the legal frontier.
+    </div>
+
+    <!-- S1 (now S2): My Score Timeline -->
+    <div id="s1" class="sec-head">2 — My BPB Score Progression</div>
     <div class="chart-wrap">
       <canvas id="bpbChart"></canvas>
     </div>
@@ -1265,6 +1305,353 @@ new Chart(bpbCtx, {
     }
   }]
 });
+
+// ===================== Chart 1a: All Submissions Scatter =====================
+{
+  const data = LB_DATA.filter(d => d.b > 0.1);
+  // Parse dates to x-axis values
+  const dateMap = {};
+  data.forEach(d => {
+    if (d.d && d.d.length >= 10) dateMap[d.d] = true;
+  });
+  const dates = Object.keys(dateMap).sort();
+
+  // Color by BPB range
+  function bpbColor(bpb) {
+    if (bpb < 1.0) return isDark ? '#f87171' : '#dc2626';       // Sub-1.0 (likely illegal)
+    if (bpb < 1.10) return isDark ? '#fb923c' : '#ea580c';      // 1.0-1.10 (suspicious)
+    if (bpb < 1.15) return isDark ? '#34d399' : '#059669';      // 1.10-1.15 (competitive)
+    if (bpb < 1.20) return isDark ? '#60a5fa' : '#2563eb';      // 1.15-1.20 (solid)
+    return isDark ? '#94a3b8' : '#6b7280';                       // 1.20+ (baseline)
+  }
+
+  const datasets = [
+    { label: '< 1.00 BPB (likely illegal)', color: isDark ? '#f87171' : '#dc2626', min: 0, max: 1.0 },
+    { label: '1.00–1.10 (suspicious zone)', color: isDark ? '#fb923c' : '#ea580c', min: 1.0, max: 1.10 },
+    { label: '1.10–1.15 (competitive)', color: isDark ? '#34d399' : '#059669', min: 1.10, max: 1.15 },
+    { label: '1.15–1.20 (solid)', color: isDark ? '#60a5fa' : '#2563eb', min: 1.15, max: 1.20 },
+    { label: '1.20+ (baseline)', color: isDark ? '#94a3b8' : '#6b7280', min: 1.20, max: 99 },
+  ].map(ds => ({
+    label: ds.label,
+    data: data.filter(d => d.b >= ds.min && d.b < ds.max && d.d).map(d => ({
+      x: d.d,
+      y: d.b,
+      pr: d.pr,
+      author: d.a,
+      name: d.n,
+      status: d.st,
+    })),
+    backgroundColor: ds.color + '99',
+    borderColor: ds.color,
+    pointRadius: 5,
+    pointHoverRadius: 7,
+  }));
+
+  new Chart(document.getElementById('allSubmissionsChart').getContext('2d'), {
+    type: 'scatter',
+    data: { datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: (ctx) => {
+              const p = ctx.raw;
+              return `PR#${p.pr} @${p.author}: ${p.y.toFixed(4)} BPB [${p.status}]`;
+            }
+          },
+          backgroundColor: isDark ? '#1c2433' : '#fff',
+          titleColor: isDark ? '#e2e8f0' : '#1a202c',
+          bodyColor: isDark ? '#e2e8f0' : '#1a202c',
+          borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
+          borderWidth: 1,
+        },
+        legend: { labels: { color: textColor, font: { family: "'IBM Plex Sans'", size: 11 } } }
+      },
+      scales: {
+        x: {
+          type: 'category',
+          labels: dates,
+          title: { display: true, text: 'Submission Date', color: textColor, font: { family: "'IBM Plex Mono'" } },
+          grid: { color: gridColor },
+          ticks: { color: textColor, font: { family: "'IBM Plex Mono'", size: 10 }, maxRotation: 45 },
+        },
+        y: {
+          title: { display: true, text: 'BPB (lower is better)', color: textColor, font: { family: "'IBM Plex Mono'" } },
+          grid: { color: gridColor },
+          ticks: { color: textColor, font: { family: "'IBM Plex Mono'", size: 11 } },
+          min: 0.5, max: 1.35,
+        }
+      }
+    }
+  });
+}
+
+// ===================== Chart 1b: Top 20 Verified =====================
+{
+  const verified = LB_DATA
+    .filter(d => d.st === 'OPEN' && d.u === 'Yes' && d.b > 0.1)
+    .sort((a, b) => a.b - b.b)
+    .slice(0, 20);
+
+  const isOurs = (pr) => [273, 385, 406].includes(pr);
+
+  new Chart(document.getElementById('top20Chart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: verified.map(d => `#${d.pr} @${d.a}`),
+      datasets: [{
+        label: 'val_bpb',
+        data: verified.map(d => d.b),
+        backgroundColor: verified.map(d =>
+          isOurs(d.pr) ? (isDark ? '#2dd4bf' : '#0891b2') :
+          (isDark ? '#34d399' + '80' : '#059669' + '80')
+        ),
+        borderColor: verified.map(d =>
+          isOurs(d.pr) ? (isDark ? '#2dd4bf' : '#0891b2') :
+          (isDark ? '#34d399' : '#059669')
+        ),
+        borderWidth: 1,
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: (ctx) => {
+              const d = verified[ctx.dataIndex];
+              return `${d.n} — ${d.b.toFixed(4)} BPB (${d.s}MB)`;
+            }
+          },
+          backgroundColor: isDark ? '#1c2433' : '#fff',
+          bodyColor: isDark ? '#e2e8f0' : '#1a202c',
+          borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
+          borderWidth: 1,
+        }
+      },
+      scales: {
+        x: {
+          title: { display: true, text: 'BPB (lower is better)', color: textColor, font: { family: "'IBM Plex Mono'" } },
+          grid: { color: gridColor },
+          ticks: { color: textColor, font: { family: "'IBM Plex Mono'", size: 11 } },
+          min: Math.floor(verified[0].b * 100) / 100 - 0.02,
+        },
+        y: {
+          grid: { color: gridColor },
+          ticks: { color: textColor, font: { family: "'IBM Plex Mono'", size: 10 } },
+        }
+      }
+    }
+  });
+}
+
+// ===================== Chart 1c: Open vs Closed =====================
+{
+  const openData = LB_DATA.filter(d => d.st === 'OPEN' && d.b > 0.1);
+  const closedData = LB_DATA.filter(d => d.st === 'CLOSED' && d.b > 0.1);
+
+  new Chart(document.getElementById('openClosedChart').getContext('2d'), {
+    type: 'scatter',
+    data: {
+      datasets: [
+        {
+          label: `Open — ${openData.length} submissions`,
+          data: openData.map((d, i) => ({ x: i, y: d.b, pr: d.pr, author: d.a, name: d.n })),
+          backgroundColor: isDark ? '#34d39980' : '#05966980',
+          borderColor: isDark ? '#34d399' : '#059669',
+          pointRadius: 4,
+          pointHoverRadius: 6,
+        },
+        {
+          label: `Closed — ${closedData.length} submissions`,
+          data: closedData.map((d, i) => ({ x: i, y: d.b, pr: d.pr, author: d.a, name: d.n })),
+          backgroundColor: isDark ? '#f8717180' : '#dc262680',
+          borderColor: isDark ? '#f87171' : '#dc2626',
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          pointStyle: 'crossRot',
+        },
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: (ctx) => {
+              const p = ctx.raw;
+              return `PR#${p.pr} @${p.author}: ${p.y.toFixed(4)} BPB`;
+            }
+          },
+          backgroundColor: isDark ? '#1c2433' : '#fff',
+          bodyColor: isDark ? '#e2e8f0' : '#1a202c',
+          borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
+          borderWidth: 1,
+        },
+        legend: { labels: { color: textColor, font: { family: "'IBM Plex Sans'", size: 12 } } }
+      },
+      scales: {
+        x: {
+          title: { display: true, text: 'Submission (ranked by BPB within group)', color: textColor, font: { family: "'IBM Plex Mono'" } },
+          grid: { color: gridColor },
+          ticks: { display: false },
+        },
+        y: {
+          title: { display: true, text: 'BPB (lower is better)', color: textColor, font: { family: "'IBM Plex Mono'" } },
+          grid: { color: gridColor },
+          ticks: { color: textColor, font: { family: "'IBM Plex Mono'", size: 11 } },
+          min: 0.5, max: 1.35,
+        }
+      }
+    },
+    plugins: [{
+      id: 'cliffLine',
+      beforeDraw: (chart) => {
+        const ctx = chart.ctx;
+        const yAxis = chart.scales.y;
+        const xAxis = chart.scales.x;
+        // Illegal zone shading
+        const y1 = yAxis.getPixelForValue(1.10);
+        const y2 = yAxis.getPixelForValue(0.5);
+        ctx.fillStyle = isDark ? 'rgba(248,113,113,0.05)' : 'rgba(220,38,38,0.03)';
+        ctx.fillRect(xAxis.left, y1, xAxis.right - xAxis.left, y2 - y1);
+        // Line at 1.10
+        ctx.strokeStyle = isDark ? 'rgba(248,113,113,0.4)' : 'rgba(220,38,38,0.4)';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([8, 4]);
+        ctx.beginPath();
+        ctx.moveTo(xAxis.left, y1);
+        ctx.lineTo(xAxis.right, y1);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.font = "12px 'IBM Plex Mono'";
+        ctx.fillStyle = isDark ? 'rgba(248,113,113,0.6)' : 'rgba(220,38,38,0.6)';
+        ctx.fillText('← THE CLIFF: ~1.10 BPB — almost everything below was closed', xAxis.left + 10, y1 - 8);
+      }
+    }]
+  });
+}
+
+// ===================== Chart 1d: By Technique =====================
+{
+  const techniques = {
+    'TTT (multi-epoch)': d => /TTT|ttt|test.time/i.test(d.n) && /multi|epoch|10.?ep|8.?ep|6.?ep|5.?ep|AdamW TTT/i.test(d.n),
+    'LoRA TTT': d => /LoRA.*TTT|TTT.*LoRA|lora.ttt/i.test(d.n),
+    'Score-First TTT': d => /score.first|single.pass|1.?ep.*TTT/i.test(d.n),
+    'QAT (Int6/Int8)': d => /QAT|Int6|Int8|int5|quantiz/i.test(d.n) && !/TTT/i.test(d.n),
+    'U-Net / Skip': d => /U.?Net|skip|residual/i.test(d.n),
+    'EMA': d => /EMA|exponential.moving/i.test(d.n),
+    'XSA / Attention': d => /XSA|attention|FlashAttention|FA3/i.test(d.n),
+    'BigramHash': d => /BigramHash|bigram/i.test(d.n),
+    'Custom Kernel': d => /kernel|triton|fused/i.test(d.n),
+    'Paid Prefix': d => /paid.prefix/i.test(d.n),
+    'GPTQ': d => /GPTQ|hessian/i.test(d.n),
+    'SwiGLU / Star-ReLU': d => /SwiGLU|Star.?ReLU|ReLU|LeakyReLU/i.test(d.n),
+  };
+
+  const allData = LB_DATA.filter(d => d.b > 0.1);
+  const techLabels = Object.keys(techniques);
+  const techData = techLabels.map(label => {
+    const matched = allData.filter(techniques[label]);
+    return matched.map(d => d.b);
+  });
+
+  // Box plot approximation: show min, q1, median, q3, max as floating bars
+  const boxStats = techData.map(arr => {
+    if (arr.length === 0) return null;
+    arr.sort((a, b) => a - b);
+    const q = (p) => {
+      const pos = (arr.length - 1) * p;
+      const base = Math.floor(pos);
+      const rest = pos - base;
+      return arr[base] + (arr[base + 1] !== undefined ? rest * (arr[base + 1] - arr[base]) : 0);
+    };
+    return {
+      min: arr[0],
+      q1: q(0.25),
+      median: q(0.5),
+      q3: q(0.75),
+      max: arr[arr.length - 1],
+      count: arr.length,
+      mean: arr.reduce((a, b) => a + b, 0) / arr.length,
+    };
+  });
+
+  const colors = [
+    isDark ? '#f87171' : '#dc2626',
+    isDark ? '#fb923c' : '#ea580c',
+    isDark ? '#fbbf24' : '#d97706',
+    isDark ? '#34d399' : '#059669',
+    isDark ? '#2dd4bf' : '#0891b2',
+    isDark ? '#60a5fa' : '#2563eb',
+    isDark ? '#a78bfa' : '#7c3aed',
+    isDark ? '#f472b6' : '#db2777',
+    isDark ? '#94a3b8' : '#6b7280',
+    isDark ? '#e879f9' : '#c026d3',
+    isDark ? '#22d3ee' : '#0e7490',
+    isDark ? '#facc15' : '#ca8a04',
+  ];
+
+  new Chart(document.getElementById('techniqueChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: techLabels.map((l, i) => `${l} (${boxStats[i] ? boxStats[i].count : 0})`),
+      datasets: [
+        {
+          label: 'Median BPB',
+          data: boxStats.map(s => s ? s.median : null),
+          backgroundColor: colors.map(c => c + '99'),
+          borderColor: colors,
+          borderWidth: 2,
+        },
+        {
+          label: 'Best BPB',
+          data: boxStats.map(s => s ? s.min : null),
+          backgroundColor: colors.map(c => c + '40'),
+          borderColor: colors.map(c => c + '80'),
+          borderWidth: 1,
+        },
+      ]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true, maintainAspectRatio: false,
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: (ctx) => {
+              const s = boxStats[ctx.dataIndex];
+              if (!s) return 'No data';
+              return ctx.datasetIndex === 0
+                ? `Median: ${s.median.toFixed(4)} (${s.count} submissions, range ${s.min.toFixed(4)}–${s.max.toFixed(4)})`
+                : `Best: ${s.min.toFixed(4)}`;
+            }
+          },
+          backgroundColor: isDark ? '#1c2433' : '#fff',
+          bodyColor: isDark ? '#e2e8f0' : '#1a202c',
+          borderColor: isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
+          borderWidth: 1,
+        },
+        legend: { labels: { color: textColor, font: { family: "'IBM Plex Sans'", size: 11 } } }
+      },
+      scales: {
+        x: {
+          title: { display: true, text: 'BPB (lower is better)', color: textColor, font: { family: "'IBM Plex Mono'" } },
+          grid: { color: gridColor },
+          ticks: { color: textColor, font: { family: "'IBM Plex Mono'", size: 11 } },
+          min: 0.5, max: 1.4,
+        },
+        y: {
+          grid: { color: gridColor },
+          ticks: { color: textColor, font: { family: "'IBM Plex Mono'", size: 10 } },
+        }
+      }
+    }
+  });
+}
 
 // ===================== Cost Pie Chart =====================
 const costCtx = document.getElementById('costChart').getContext('2d');
