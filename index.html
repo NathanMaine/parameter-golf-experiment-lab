@@ -556,7 +556,7 @@
         <div class="kpi-label">Days Left</div>
       </div>
       <div class="kpi">
-        <div class="kpi-value" style="color: var(--teal);">46+</div>
+        <div class="kpi-value" style="color: var(--teal);">60+</div>
         <div class="kpi-label">My Experiments</div>
       </div>
     </div>
@@ -644,7 +644,7 @@
     </div>
 
     <!-- S2: All Experiments -->
-    <div id="s2" class="sec-head"><span>2 — My Experiment Log (46+ Runs)</span><a href="https://github.com/NathanMaine/parameter-golf-experiment-lab/issues/new?labels=feedback&title=Feedback: my-experiments" target="_blank" class="feedback-btn">Give Feedback</a></div>
+    <div id="s2" class="sec-head"><span>2 — My Experiment Log (60+ Runs)</span><a href="https://github.com/NathanMaine/parameter-golf-experiment-lab/issues/new?labels=feedback&title=Feedback: my-experiments" target="_blank" class="feedback-btn">Give Feedback</a></div>
     <div class="table-wrap">
       <table id="expTable">
         <thead>
@@ -900,11 +900,142 @@
             <td><span class="badge badge--green">Yes</span></td>
             <td><span class="badge badge--amber">Worse</span></td>
           </tr>
+          <!-- Day 8: RTX 5090 Tests -->
+          <tr>
+            <td>5090-1</td><td>8</td><td>Mar 26</td><td>RTX 5090 Reykjavik (180TF)</td>
+            <td>PR#414 baseline (SDPA fallback)</td>
+            <td>2.3155</td><td>326</td><td>100</td><td>~15MB</td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--amber">1×GPU test</span></td>
+          </tr>
+          <tr>
+            <td>5090-2</td><td>8</td><td>Mar 26</td><td>RTX 5090 Reykjavik (180TF)</td>
+            <td>PR#549 LeakyReLU² + Banking</td>
+            <td>2.3280</td><td>385</td><td>100</td><td>~15MB</td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--amber">1×GPU test</span></td>
+          </tr>
+          <tr class="row-crashed">
+            <td>PHANTOM</td><td>8</td><td>Mar 26</td><td>RTX 5090 Reykjavik (180TF)</td>
+            <td>PHANTOM kernel (fused Linear+LoRA)</td>
+            <td>N/A</td><td>—</td><td>—</td><td>—</td>
+            <td>—</td><td>—</td>
+            <td><span class="badge badge--red">0.41x slower</span></td>
+          </tr>
+          <!-- Day 8: N-gram Revolution -->
+          <tr class="row-best">
+            <td>NG-1×</td><td>8</td><td>Mar 26</td><td>H100 Mumbai (734TF)</td>
+            <td>PR#900 N-gram+Dirichlet (1×H100, 200 steps)</td>
+            <td><strong>0.1191</strong></td><td>237</td><td>200</td><td>8.7MB</td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">N-gram works!</span></td>
+          </tr>
+          <!-- Day 8: Competition Runs -->
+          <tr class="row-best">
+            <td>PR#948-s1</td><td>8</td><td>Mar 26</td><td>8×H100 Rancho Cordova (749TF)</td>
+            <td>Order-15 Dirichlet + Phrase (seed 1337)</td>
+            <td><strong>0.11555</strong></td><td>146</td><td>3,827</td><td>15.1MB</td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Submitted ★</span></td>
+          </tr>
+          <tr class="row-best">
+            <td>PR#948-s2</td><td>8</td><td>Mar 26</td><td>8×H100 Rancho Cordova (749TF)</td>
+            <td>Order-15 Dirichlet + Phrase (seed 42)</td>
+            <td><strong>0.11556</strong></td><td>146</td><td>3,827</td><td>15.1MB</td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Submitted ★</span></td>
+          </tr>
+          <tr class="row-best">
+            <td>PR#948-s3</td><td>8</td><td>Mar 26</td><td>8×H100 Rancho Cordova (749TF)</td>
+            <td>Order-15 Dirichlet + Phrase (seed 2025)</td>
+            <td><strong>0.11556</strong></td><td>146</td><td>3,827</td><td>15.1MB</td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Submitted ★</span></td>
+          </tr>
+          <!-- Day 8: Ablation Battery -->
+          <tr>
+            <td>ABL-1</td><td>8</td><td>Mar 27</td><td>H100 Kansas City (740TF)</td>
+            <td>Baseline (control)</td>
+            <td>0.11906</td><td>237</td><td>200</td><td>~8.7MB</td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--amber">Control</span></td>
+          </tr>
+          <tr>
+            <td>ABL-2</td><td>8</td><td>Mar 27</td><td>H100 Kansas City (740TF)</td>
+            <td>+ Two-pass rescore</td>
+            <td>0.11906</td><td>237</td><td>200</td><td>~8.7MB</td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--amber">No change</span></td>
+          </tr>
+          <tr class="row-best">
+            <td>ABL-3</td><td>8</td><td>Mar 27</td><td>H100 Kansas City (740TF)</td>
+            <td>N-gram order 20 (was 15)</td>
+            <td><strong>0.11873</strong></td><td>237</td><td>200</td><td>~8.7MB</td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Winner! -0.00033</span></td>
+          </tr>
+          <tr>
+            <td>ABL-4</td><td>8</td><td>Mar 27</td><td>H100 Kansas City (740TF)</td>
+            <td>Int5 quantization</td>
+            <td>0.11906</td><td>237</td><td>200</td><td>~8.7MB</td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--amber">No change</span></td>
+          </tr>
+          <tr>
+            <td>ABL-5</td><td>8</td><td>Mar 27</td><td>H100 Kansas City (740TF)</td>
+            <td>Comp alpha=0.30</td>
+            <td>0.11906</td><td>237</td><td>200</td><td>~8.7MB</td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--amber">No change</span></td>
+          </tr>
+          <tr class="row-crashed">
+            <td>ABL-6</td><td>8</td><td>Mar 27</td><td>H100 Kansas City (740TF)</td>
+            <td>zstd compression</td>
+            <td>CRASHED</td><td>—</td><td>—</td><td>—</td>
+            <td>—</td><td>—</td>
+            <td><span class="badge badge--red">Not supported</span></td>
+          </tr>
+          <!-- Day 8: Order-20 Competition Runs -->
+          <tr class="row-best">
+            <td>PR#968-s1</td><td>8</td><td>Mar 27</td><td>8×H100 Montréal (747TF)</td>
+            <td>Order-20 Dirichlet + Phrase (seed 1337)</td>
+            <td><strong>0.11544</strong></td><td>177</td><td>3,170</td><td>15.1MB</td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Submitted ★ #1</span></td>
+          </tr>
+          <tr class="row-best">
+            <td>PR#968-s2</td><td>8</td><td>Mar 27</td><td>8×H100 Montréal (747TF)</td>
+            <td>Order-20 Dirichlet + Phrase (seed 42)</td>
+            <td><strong>0.11546</strong></td><td>177</td><td>3,170</td><td>15.1MB</td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Submitted ★ #1</span></td>
+          </tr>
+          <tr class="row-best">
+            <td>PR#968-s3</td><td>8</td><td>Mar 27</td><td>8×H100 Montréal (747TF)</td>
+            <td>Order-20 Dirichlet + Phrase (seed 2025)</td>
+            <td><strong>0.11545</strong></td><td>177</td><td>3,170</td><td>15.1MB</td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Submitted ★ #1</span></td>
+          </tr>
         </tbody>
       </table>
     </div>
     <div class="card" style="font-size: 12px; color: var(--text-dim);">
-      <strong style="color: var(--amber);">Note:</strong> 1×H100 runs (Days 2-5) show higher BPB because they get far fewer training steps in the time budget. Only 8×H100 results are competition-comparable. The 80+ autoresearch crashes are collapsed into one row — $43 lesson learned.
+      <strong style="color: var(--amber);">Note:</strong> 1×GPU runs show higher BPB due to fewer training steps. Only 8×H100 results are competition-comparable. The N-gram cache revolution (Day 8) took us from 1.1287 to 0.11545 — a 10× improvement. Total: 60+ experiments across 10 pods, ~$300 spent.
     </div>
 
     <!-- S3: Technique Matrix -->
@@ -1006,6 +1137,54 @@
           <div class="tech-impact tech-impact--red">CRASHES &middot; CUDAGraph conflicts</div>
         </div>
       </div>
+      <div class="tech-item">
+        <div class="tech-icon tech-icon--red">✗</div>
+        <div>
+          <div class="tech-name">PHANTOM Kernel (Fused Linear+LoRA)</div>
+          <div class="tech-detail">Custom Triton kernel fusing base linear + LoRA. Rank-8 matmuls too small to benefit — cuBLAS already optimal.</div>
+          <div class="tech-impact tech-impact--red">0.41× SLOWER &middot; dead end confirmed on RTX 5090</div>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon tech-icon--green">&#10003;</div>
+        <div>
+          <div class="tech-name">N-gram Cache (orders 2-20)</div>
+          <div class="tech-detail">Hash table of token patterns from already-scored validation data. Backward-looking, score-first, causal. THE paradigm shift.</div>
+          <div class="tech-impact tech-impact--green">GAME CHANGER &middot; 1.17 → 0.115 BPB (10× improvement)</div>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon tech-icon--green">&#10003;</div>
+        <div>
+          <div class="tech-name">Dirichlet Smoothing (per-order OBCL)</div>
+          <div class="tech-detail">Bayesian posterior: p = (count + c × prior) / (total + c). Learned concentration per order: 50.0 (bigrams) → 1.86 (14-grams).</div>
+          <div class="tech-impact tech-impact--green">CRITICAL &middot; -0.06 BPB vs linear interpolation</div>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon tech-icon--green">&#10003;</div>
+        <div>
+          <div class="tech-name">Phrase Cache (suffix matching)</div>
+          <div class="tech-detail">Match 16-20 token suffixes with Dirichlet smoothing. Captures long-range repetition that 15-gram can't reach.</div>
+          <div class="tech-impact tech-impact--green">PROVEN &middot; -0.11 BPB additional improvement</div>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon tech-icon--green">&#10003;</div>
+        <div>
+          <div class="tech-name">Complementary Training</div>
+          <div class="tech-detail">Downweight loss on N-gram-predictable tokens during training. Focus neural model on hard tokens.</div>
+          <div class="tech-impact tech-impact--green">PROVEN &middot; -0.07 BPB (alpha=0.50)</div>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon tech-icon--green">&#10003;</div>
+        <div>
+          <div class="tech-name">Order 20 (vs 15)</div>
+          <div class="tech-detail">Extending N-gram orders from 15 to 20 gave -0.00033 BPB in ablation, -0.00011 in competition.</div>
+          <div class="tech-impact tech-impact--green">SMALL WIN &middot; -0.00011 BPB (confirmed via 6-test ablation)</div>
+        </div>
+      </div>
     </div>
 
     <!-- S4: Cost & Efficiency -->
@@ -1045,25 +1224,61 @@
         <div class="cost-card__label">Overnight Waste</div>
         <div class="cost-card__value" style="color: var(--red);">$43</div>
         <div class="cost-card__sub">80+ crashed autoresearch experiments</div>
-        <div class="cost-bar"><div class="cost-bar__fill" style="width: 17%; background: var(--red);"></div></div>
+        <div class="cost-bar"><div class="cost-bar__fill" style="width: 12%; background: var(--red);"></div></div>
+      </div>
+      <div class="cost-card">
+        <div class="cost-card__label">RTX 5090 — Day 8 (Reykjavik)</div>
+        <div class="cost-card__value" style="color: var(--blue);">$5</div>
+        <div class="cost-card__sub">PR#414 vs #549 + PHANTOM kernel test</div>
+        <div class="cost-bar"><div class="cost-bar__fill" style="width: 2%; background: var(--blue);"></div></div>
+      </div>
+      <div class="cost-card">
+        <div class="cost-card__label">H100 Mumbai — Day 8 (1×H100)</div>
+        <div class="cost-card__value" style="color: var(--green);">$5</div>
+        <div class="cost-card__sub">First N-gram test — 0.1191 BPB!</div>
+        <div class="cost-bar"><div class="cost-bar__fill" style="width: 2%; background: var(--green);"></div></div>
+      </div>
+      <div class="cost-card">
+        <div class="cost-card__label">8×H100 Rancho Cordova — Day 8</div>
+        <div class="cost-card__value" style="color: var(--green);">$35</div>
+        <div class="cost-card__sub">3-seed PR#948 — #1 tied at 0.11556</div>
+        <div class="cost-bar"><div class="cost-bar__fill" style="width: 10%; background: var(--green);"></div></div>
+      </div>
+      <div class="cost-card">
+        <div class="cost-card__label">H100 Kansas City — Day 8 (ablation)</div>
+        <div class="cost-card__value" style="color: var(--blue);">$8</div>
+        <div class="cost-card__sub">6-test ablation battery — found order 20</div>
+        <div class="cost-bar"><div class="cost-bar__fill" style="width: 2%; background: var(--blue);"></div></div>
+      </div>
+      <div class="cost-card">
+        <div class="cost-card__label">8×H100 Montréal — Day 8</div>
+        <div class="cost-card__value" style="color: var(--green);">$35</div>
+        <div class="cost-card__sub">3-seed PR#968 — NEW #1 at 0.11545</div>
+        <div class="cost-bar"><div class="cost-bar__fill" style="width: 10%; background: var(--green);"></div></div>
+      </div>
+      <div class="cost-card">
+        <div class="cost-card__label">Broken Pods (Amsterdam)</div>
+        <div class="cost-card__value" style="color: var(--red);">$15</div>
+        <div class="cost-card__sub">2 pods failed — critical error + broken CUDA</div>
+        <div class="cost-bar"><div class="cost-bar__fill" style="width: 4%; background: var(--red);"></div></div>
       </div>
     </div>
     <div class="kpi-bar" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
       <div class="kpi">
-        <div class="kpi-value" style="color: var(--teal);">$5.57</div>
-        <div class="kpi-label">Cost per successful experiment</div>
+        <div class="kpi-value" style="color: var(--teal);">~$340</div>
+        <div class="kpi-label">Total spend (10 pods)</div>
       </div>
       <div class="kpi">
-        <div class="kpi-value" style="color: var(--amber);">$8,889</div>
+        <div class="kpi-value" style="color: var(--amber);">$320</div>
         <div class="kpi-label">Cost per BPB point gained</div>
       </div>
       <div class="kpi">
-        <div class="kpi-value" style="color: var(--green);">0.0288</div>
-        <div class="kpi-label">BPB improvement (total)</div>
+        <div class="kpi-value" style="color: var(--green);">1.0132</div>
+        <div class="kpi-label">BPB improvement (1.1287 → 0.1155)</div>
       </div>
       <div class="kpi">
-        <div class="kpi-value" style="color: var(--red);">56%</div>
-        <div class="kpi-label">Experiments with no usable result</div>
+        <div class="kpi-value" style="color: var(--teal);">#1</div>
+        <div class="kpi-label">Current leaderboard position</div>
       </div>
     </div>
     <div class="chart-wrap">
