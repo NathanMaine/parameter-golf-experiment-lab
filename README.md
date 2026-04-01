@@ -1,6 +1,6 @@
 # Parameter Golf — Experiment Lab
 
-**Interactive dashboard visualizing 352 submissions from the [OpenAI Parameter Golf](https://github.com/openai/parameter-golf) competition.**
+**Interactive dashboard visualizing 1,171+ submissions from the [OpenAI Parameter Golf](https://github.com/openai/parameter-golf) competition.**
 
 > **Disclaimer:** This dashboard is not affiliated with, endorsed by, or officially associated with OpenAI, RunPod, or the Parameter Golf competition organizers. It is solely an independent attempt by one participant to document, visualize, and analyze data from a public open-source competition. All data is sourced from publicly available GitHub pull requests.
 
@@ -10,17 +10,17 @@
 
 ## What's Inside
 
-- **Community Leaderboard** — All 352 submissions ranked by BPB, searchable and filterable by status (open/closed/merged), size compliance, author, and technique
+- **Community Leaderboard** — All 1,171+ submissions ranked by BPB, searchable and filterable by status (open/closed/merged), size compliance, author, and technique
 - **Score Timeline** — BPB progression chart showing legal vs illegal zones
-- **Experiment Log** — 46+ personal experiments with full config, timing, and outcome data
+- **Experiment Log** — 85+ personal experiments with full config, timing, and outcome data
 - **Technique Matrix** — What worked, what didn't, and what got banned
-- **Cost Analysis** — $256 across 5 RunPod pods, broken down by session with efficiency metrics
+- **Cost Analysis** — ~$330 across 11 RunPod pods, broken down by session with efficiency metrics
 - **Pod Comparison** — GPU benchmarks across pods (TFLOPS, step times, locations)
-- **Key Discoveries** — Timeline of insights from 6 days of competition
+- **Key Discoveries** — Timeline of insights from 11 days of competition
 
 ## Data Sources
 
-- `submission.json` files from 485 public pull requests
+- `submission.json` files from 1,171+ public pull requests
 - Personal experiment logs from RunPod sessions
 - Organizer comments and rulings from GitHub issues
 

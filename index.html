@@ -526,7 +526,7 @@
 
   <div class="main">
     <h1>Parameter Golf — <span>Experiment Lab</span></h1>
-    <p class="subtitle">OpenAI Model Craft Challenge &middot; Nathan Maine &middot; March 19–25, 2026</p>
+    <p class="subtitle">OpenAI Model Craft Challenge &middot; Nathan Maine &middot; March 19–31, 2026</p>
 
     <div class="disclaimer">
       <strong>Disclaimer — Unofficial &amp; Independent</strong>
@@ -536,7 +536,7 @@
     <!-- KPI Bar -->
     <div class="kpi-bar">
       <div class="kpi kpi--teal">
-        <div class="kpi-value">567</div>
+        <div class="kpi-value">1,171+</div>
         <div class="kpi-label">Total Submissions</div>
       </div>
       <div class="kpi kpi--green">
@@ -556,13 +556,13 @@
         <div class="kpi-label">Days Left</div>
       </div>
       <div class="kpi">
-        <div class="kpi-value" style="color: var(--teal);">60+</div>
+        <div class="kpi-value" style="color: var(--teal);">85+</div>
         <div class="kpi-label">My Experiments</div>
       </div>
     </div>
 
     <!-- S0: Community Leaderboard -->
-    <div id="s0" class="sec-head"><span>0 — Community Leaderboard (567 Submissions)</span><a href="https://github.com/NathanMaine/parameter-golf-experiment-lab/issues/new?labels=feedback&title=Feedback: leaderboard" target="_blank" class="feedback-btn">Give Feedback</a></div>
+    <div id="s0" class="sec-head"><span>0 — Community Leaderboard (1,171+ Submissions)</span><a href="https://github.com/NathanMaine/parameter-golf-experiment-lab/issues/new?labels=feedback&title=Feedback: leaderboard" target="_blank" class="feedback-btn">Give Feedback</a></div>
     <div class="card" style="margin-bottom: 16px;">
       <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
         <input type="text" id="lbSearch" placeholder="Search by author, PR#, or technique..." style="flex: 1; min-width: 200px; padding: 8px 12px; background: var(--bg); border: 1px solid var(--border-bright); border-radius: 6px; color: var(--text); font-family: var(--font-mono); font-size: 12px;">
@@ -573,7 +573,7 @@
           <option value="merged">Merged</option>
           <option value="under16">Under 16MB</option>
         </select>
-        <span id="lbCount" style="font-family: var(--font-mono); font-size: 12px; color: var(--text-dim);">567 shown</span>
+        <span id="lbCount" style="font-family: var(--font-mono); font-size: 12px; color: var(--text-dim);">1,171+ shown</span>
       </div>
     </div>
     <div class="table-wrap" style="max-height: 600px; overflow-y: auto;">
@@ -599,7 +599,7 @@
     </div>
 
     <!-- S1a: All Submissions Scatter -->
-    <div id="s1a" class="sec-head"><span>1a — All Submissions by Date (567 PRs)</span><a href="https://github.com/NathanMaine/parameter-golf-experiment-lab/issues/new?labels=feedback&title=Feedback: all-submissions-chart" target="_blank" class="feedback-btn">Give Feedback</a></div>
+    <div id="s1a" class="sec-head"><span>1a — All Submissions by Date (1,171+ PRs)</span><a href="https://github.com/NathanMaine/parameter-golf-experiment-lab/issues/new?labels=feedback&title=Feedback: all-submissions-chart" target="_blank" class="feedback-btn">Give Feedback</a></div>
     <div class="chart-wrap" style="height: 420px;">
       <canvas id="allSubmissionsChart"></canvas>
     </div>
@@ -644,7 +644,7 @@
     </div>
 
     <!-- S2: All Experiments -->
-    <div id="s2" class="sec-head"><span>2 — My Experiment Log (60+ Runs)</span><a href="https://github.com/NathanMaine/parameter-golf-experiment-lab/issues/new?labels=feedback&title=Feedback: my-experiments" target="_blank" class="feedback-btn">Give Feedback</a></div>
+    <div id="s2" class="sec-head"><span>2 — My Experiment Log (85+ Runs)</span><a href="https://github.com/NathanMaine/parameter-golf-experiment-lab/issues/new?labels=feedback&title=Feedback: my-experiments" target="_blank" class="feedback-btn">Give Feedback</a></div>
     <div class="table-wrap">
       <table id="expTable">
         <thead>
@@ -1031,11 +1031,116 @@
             <td><span class="badge badge--green">Yes</span></td>
             <td><span class="badge badge--green">Submitted ★ #1</span></td>
           </tr>
+          <!-- Day 10-11: Research Sprint (Mar 30-31) -->
+          <tr class="row-best">
+            <td>KS-v1</td><td>10</td><td>Mar 30</td><td>Pod 6 RTX 5090 Iceland</td>
+            <td>Universal Transformer (22 iter, 90% sparse)</td>
+            <td>1.8134</td><td>560</td><td>1,071</td><td>2.9MB</td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--amber">Research</span></td>
+          </tr>
+          <tr class="row-best">
+            <td>KS-v2</td><td>10</td><td>Mar 30</td><td>Pod 6 RTX 5090 Iceland</td>
+            <td>UT-12 + 50% sparse + TTT</td>
+            <td><strong>1.4390</strong></td><td>564</td><td>1,064</td><td>2.9MB</td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Submitted ★</span></td>
+          </tr>
+          <tr class="row-best">
+            <td>KS-v3</td><td>10</td><td>Mar 30</td><td>Pod 6 RTX 5090 Iceland</td>
+            <td>UT-12 dim=768, no sparse</td>
+            <td>1.5212</td><td>981</td><td>610</td><td>6.5MB</td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--amber">Research</span></td>
+          </tr>
+          <tr class="row-best">
+            <td>DIFF-1</td><td>10</td><td>Mar 30</td><td>Pod 7 RTX 5090 Iceland</td>
+            <td>Text Diffusion (MDLM) hybrid AR+diff</td>
+            <td>3.3801</td><td>2,311</td><td>79</td><td>5.3MB</td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Submitted ★</span></td>
+          </tr>
+          <tr class="row-best">
+            <td>ADAPT-1</td><td>10</td><td>Mar 30</td><td>Pod 7 RTX 5090 Iceland</td>
+            <td>Random Linear Map Adapters</td>
+            <td>2.2017</td><td>609</td><td>296</td><td>10.5MB</td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Submitted ★</span></td>
+          </tr>
+          <tr class="row-best">
+            <td>JEPA-1</td><td>10</td><td>Mar 30</td><td>Pod 7 RTX 5090 Iceland</td>
+            <td>LLM-JEPA (Joint Embedding)</td>
+            <td>2.2020</td><td>682</td><td>265</td><td>9.1MB</td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Submitted ★</span></td>
+          </tr>
+          <tr class="row-best">
+            <td>MAMBA-1</td><td>10</td><td>Mar 30</td><td>Pod 7 RTX 5090 Iceland</td>
+            <td>Mamba SSM Hybrid 3:1</td>
+            <td>3.3168</td><td>~600</td><td>~300</td><td>5.3MB</td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Submitted ★</span></td>
+          </tr>
+          <tr>
+            <td>HNET-1</td><td>10</td><td>Mar 30</td><td>Pod 7 RTX 5090 Iceland</td>
+            <td>H-Net Dynamic Chunking</td>
+            <td>1.6393</td><td>624</td><td>289</td><td>8.5MB</td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--amber">Research</span></td>
+          </tr>
+          <tr class="row-crashed">
+            <td>MEGA-1</td><td>10</td><td>Mar 30</td><td>Pod 7 RTX 5090 Iceland</td>
+            <td>Triton Megakernels (broken)</td>
+            <td>3.3164</td><td>274</td><td>657</td><td>5.3MB</td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--red">CRASHED</span></td>
+          </tr>
+          <tr class="row-best">
+            <td>MEGA-2</td><td>11</td><td>Mar 31</td><td>Pod 6 RTX 5090 Iceland</td>
+            <td>Megakernel (fixed, fullgraph=True)</td>
+            <td><strong>1.3560</strong></td><td>616</td><td>975</td><td>12.3MB</td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Submitted ★</span></td>
+          </tr>
+          <tr class="row-best">
+            <td>HNET-2</td><td>11</td><td>Mar 31</td><td>Pod 7 RTX 5090 Iceland</td>
+            <td>H-Net + TTT (10 min)</td>
+            <td><strong>1.3587</strong></td><td>624</td><td>964</td><td>8.6MB</td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Submitted ★</span></td>
+          </tr>
+          <tr>
+            <td>CTRL-1</td><td>11</td><td>Mar 31</td><td>Pod 7 RTX 5090 Iceland</td>
+            <td>Control baseline (no tricks)</td>
+            <td>1.3577</td><td>606</td><td>958</td><td>12.3MB</td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--amber">Baseline</span></td>
+          </tr>
+          <tr>
+            <td>H200-1</td><td>11</td><td>Mar 31</td><td>Pod 8 H200 SXM (742TF)</td>
+            <td>SOTA+Triton (FA2, GPTQ test)</td>
+            <td>5.6466</td><td>1,106</td><td>543</td><td>5.9MB</td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--green">Yes</span></td>
+            <td><span class="badge badge--amber">GPTQ test</span></td>
+          </tr>
         </tbody>
       </table>
     </div>
     <div class="card" style="font-size: 12px; color: var(--text-dim);">
-      <strong style="color: var(--amber);">Note:</strong> 1×GPU runs show higher BPB due to fewer training steps. Only 8×H100 results are competition-comparable. The N-gram cache revolution (Day 8) took us from 1.1287 to 0.11545 — a 10× improvement. Total: 60+ experiments across 10 pods, ~$300 spent.
+      <strong style="color: var(--amber);">Note:</strong> 1×GPU runs show higher BPB due to fewer training steps. Only 8×H100 results are competition-comparable. The N-gram cache revolution (Day 8) took us from 1.1287 to 0.11545 — a 10× improvement. Total: 85+ experiments across 11 pods, ~$330 spent. Day 10-11: Implemented all 7 OpenAI research requests (text diffusion, H-Net, JEPA, universal transformer, SSM, megakernels, random adapters).
     </div>
 
     <!-- S3: Technique Matrix -->
@@ -1185,6 +1290,97 @@
           <div class="tech-impact tech-impact--green">SMALL WIN &middot; -0.00011 BPB (confirmed via 6-test ablation)</div>
         </div>
       </div>
+      <!-- Day 10-11 techniques: GREEN -->
+      <div class="tech-item">
+        <div class="tech-icon tech-icon--green">&#10003;</div>
+        <div>
+          <div class="tech-name">H-Net Dynamic Chunking</div>
+          <div class="tech-detail">Learned boundary prediction between tokens. 263K extra params, matched baseline within 0.001 BPB.</div>
+          <div class="tech-impact tech-impact--green">PROVEN &middot; baseline-matching with learned tokenization</div>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon tech-icon--green">&#10003;</div>
+        <div>
+          <div class="tech-name">Fused Triton Megakernels</div>
+          <div class="tech-detail">RMSNorm + LeakyReLU&sup2; eval kernels. Beat baseline by 0.0017 BPB.</div>
+          <div class="tech-impact tech-impact--green">PROVEN &middot; -0.0017 BPB improvement</div>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon tech-icon--green">&#10003;</div>
+        <div>
+          <div class="tech-name">Full Hessian GPTQ</div>
+          <div class="tech-detail">Cholesky error compensation. Works on Hopper (H200/H100), crashes on consumer GPUs (5090).</div>
+          <div class="tech-impact tech-impact--green">HOPPER ONLY &middot; H100/H200 exclusive technique</div>
+        </div>
+      </div>
+      <!-- Day 10-11 techniques: AMBER -->
+      <div class="tech-item">
+        <div class="tech-icon tech-icon--amber">!</div>
+        <div>
+          <div class="tech-name">Universal Transformer</div>
+          <div class="tech-detail">Shared-weight block looped 12&times;. Saves 90% block params but loses 0.08 BPB vs flat. Confirms PR #363 findings.</div>
+          <div class="tech-impact tech-impact--amber">RESEARCH VALUE &middot; depth recurrence confirmed inferior at this scale</div>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon tech-icon--amber">!</div>
+        <div>
+          <div class="tech-name">Adaptive Density</div>
+          <div class="tech-detail">Sparse&rarr;dense curriculum. Faster early steps but net BPB worse.</div>
+          <div class="tech-impact tech-impact--amber">MIXED &middot; faster early steps, worse final BPB</div>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon tech-icon--amber">!</div>
+        <div>
+          <div class="tech-name">Echo Training</div>
+          <div class="tech-detail">Self-distillation from EMA. Crashed due to autograd conflicts. Needs architectural rethink.</div>
+          <div class="tech-impact tech-impact--amber">INCOMPLETE &middot; autograd conflicts</div>
+        </div>
+      </div>
+      <!-- Day 10-11 techniques: RED -->
+      <div class="tech-item">
+        <div class="tech-icon tech-icon--red">&#10007;</div>
+        <div>
+          <div class="tech-name">Text Diffusion (MDLM)</div>
+          <div class="tech-detail">Hybrid AR+diffusion. 3.38 BPB. Too slow (2.3s/step) for 10-min window. Signs of life only.</div>
+          <div class="tech-impact tech-impact--red">RESEARCH ONLY &middot; 3.38 BPB, 2.3s/step</div>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon tech-icon--red">&#10007;</div>
+        <div>
+          <div class="tech-name">Random Linear Map Adapters</div>
+          <div class="tech-detail">Frozen orthogonal weights. 2.20 BPB. Pretraining on frozen random projections doesn't work.</div>
+          <div class="tech-impact tech-impact--red">NEGATIVE RESULT &middot; 2.20 BPB</div>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon tech-icon--red">&#10007;</div>
+        <div>
+          <div class="tech-name">LLM-JEPA</div>
+          <div class="tech-detail">Joint embedding prediction. 2.20 BPB. JEPA benefits are invisible on raw BPB pretraining metric.</div>
+          <div class="tech-impact tech-impact--red">NEGATIVE RESULT &middot; 2.20 BPB</div>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon tech-icon--red">&#10007;</div>
+        <div>
+          <div class="tech-name">Mamba SSM Hybrid</div>
+          <div class="tech-detail">Pure PyTorch SSM. 3.32 BPB. No custom kernels = too slow. Needs CUDA implementation.</div>
+          <div class="tech-impact tech-impact--red">RESEARCH ONLY &middot; 3.32 BPB, needs CUDA kernels</div>
+        </div>
+      </div>
+      <div class="tech-item">
+        <div class="tech-icon tech-icon--red">&#10007;</div>
+        <div>
+          <div class="tech-name">Depth Recurrence</div>
+          <div class="tech-detail">Confirmed independently: flat models beat looped models at this scale. Also confirmed by PR #363.</div>
+          <div class="tech-impact tech-impact--red">DEAD END &middot; flat &gt; looped at 16MB scale</div>
+        </div>
+      </div>
     </div>
 
     <!-- S4: Cost & Efficiency -->
@@ -1262,11 +1458,29 @@
         <div class="cost-card__sub">2 pods failed — critical error + broken CUDA</div>
         <div class="cost-bar"><div class="cost-bar__fill" style="width: 4%; background: var(--red);"></div></div>
       </div>
+      <div class="cost-card">
+        <div class="cost-card__label">Pod 6 — Days 10-11 (1&times;RTX 5090 Iceland)</div>
+        <div class="cost-card__value" style="color: var(--blue);">$5.50</div>
+        <div class="cost-card__sub">Kitchen Sink tuning + megakernel experiments</div>
+        <div class="cost-bar"><div class="cost-bar__fill" style="width: 2%; background: var(--blue);"></div></div>
+      </div>
+      <div class="cost-card">
+        <div class="cost-card__label">Pod 7 — Days 10-11 (1&times;RTX 5090 Iceland)</div>
+        <div class="cost-card__value" style="color: var(--blue);">$7.00</div>
+        <div class="cost-card__sub">7 research architecture runs + overnight</div>
+        <div class="cost-bar"><div class="cost-bar__fill" style="width: 2%; background: var(--blue);"></div></div>
+      </div>
+      <div class="cost-card">
+        <div class="cost-card__label">Pod 8 — Day 11 (1&times;H200 SXM)</div>
+        <div class="cost-card__value" style="color: var(--green);">$13.00</div>
+        <div class="cost-card__sub">GPTQ validation on Hopper + SOTA test</div>
+        <div class="cost-bar"><div class="cost-bar__fill" style="width: 4%; background: var(--green);"></div></div>
+      </div>
     </div>
     <div class="kpi-bar" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
       <div class="kpi">
-        <div class="kpi-value" style="color: var(--teal);">~$340</div>
-        <div class="kpi-label">Total spend (10 pods)</div>
+        <div class="kpi-value" style="color: var(--teal);">~$330</div>
+        <div class="kpi-label">Total spend (11 pods)</div>
       </div>
       <div class="kpi">
         <div class="kpi-value" style="color: var(--amber);">$320</div>
@@ -1386,10 +1600,45 @@
         <div class="tl-text" style="color: var(--amber);">"93KB over the size limit = so close yet so far"</div>
         <div class="tl-sub">Run KC2-C: PR#505 dim=496 produced 16.09MB — just 93KB over the 16MB limit. Best legal no-TTT architecture but can't submit it.</div>
       </div>
+      <div class="tl-item" style="animation-delay: 0.72s;">
+        <div class="tl-day">Day 10 — March 30</div>
+        <div class="tl-text" style="color: var(--green);">"Research Sprint: all 7 OpenAI requests in 48 hours"</div>
+        <div class="tl-sub">Implemented all 7 of OpenAI's requested research directions in 48 hours. 11,810 lines of code across 8 training scripts. Only entrant to attempt comprehensive coverage.</div>
+      </div>
+      <div class="tl-item" style="animation-delay: 0.80s;">
+        <div class="tl-day">Day 10 — March 30</div>
+        <div class="tl-text" style="color: var(--red);">"Depth Recurrence Confirmed Dead"</div>
+        <div class="tl-sub">Our Universal Transformer experiments independently confirmed PR #363's finding: shared-weight architectures lose ~0.08 BPB vs flat models at 16MB scale.</div>
+      </div>
+      <div class="tl-item" style="animation-delay: 0.88s;">
+        <div class="tl-day">Day 10 — March 30</div>
+        <div class="tl-text" style="color: var(--green);">"H-Net Surprise: learned chunking matches baseline"</div>
+        <div class="tl-sub">Learned dynamic chunking (H-Net) matched baseline within 0.001 BPB using only 263K extra parameters. Suggests learned tokenization is a viable research direction.</div>
+      </div>
+      <div class="tl-item" style="animation-delay: 0.96s;">
+        <div class="tl-day">Day 11 — March 31</div>
+        <div class="tl-text" style="color: var(--amber);">"Triton Kernels Debug: autograd broke, eval-only fix"</div>
+        <div class="tl-sub">First attempt at training-time Triton kernels broke autograd (no gradients flowing). Fix: eval-only Triton + fullgraph=True torch.compile. Net result: 0.0017 BPB improvement.</div>
+      </div>
+      <div class="tl-item" style="animation-delay: 1.04s;">
+        <div class="tl-day">Day 11 — March 31</div>
+        <div class="tl-text">"GPTQ on Hopper — H200 only"</div>
+        <div class="tl-sub">Full Hessian GPTQ Cholesky decomposition crashes on RTX 5090 (consumer GPU precision) but works perfectly on H200 SXM (Hopper). This is an H100/H200-only technique.</div>
+      </div>
+      <div class="tl-item" style="animation-delay: 1.12s;">
+        <div class="tl-day">Day 11 — March 31</div>
+        <div class="tl-text" style="color: var(--amber);">"Brain Trust Gaps: 12 major knowledge gaps"</div>
+        <div class="tl-sub">Queried 343K-chunk expert knowledge base. Found zero coverage on GPTQ, Triton kernel authoring, Mamba-3, and competition meta-techniques. 12 major knowledge gaps identified.</div>
+      </div>
+      <div class="tl-item" style="animation-delay: 1.20s;">
+        <div class="tl-day">Day 11 — March 31</div>
+        <div class="tl-text" style="color: var(--red);">"Partition Function Challenge: n-gram scores may be invalid"</div>
+        <div class="tl-sub">PR #1147 mathematically proved that Dirichlet/n-gram cache approaches (including our PRs #948/#968) produce invalid BPB due to unnormalized probability distributions. Our n-gram scores may be invalidated.</div>
+      </div>
     </div>
 
     <div class="footer">
-      Parameter Golf Experiment Lab &middot; Nathan Maine &middot; Updated March 27, 2026 (v3) &middot; <a href="https://github.com/NathanMaine/parameter-golf-experiment-lab" target="_blank" style="color: var(--teal);">GitHub Repo</a> &middot; <a href="https://github.com/openai/parameter-golf" target="_blank" style="color: var(--blue);">Official Competition</a>
+      Parameter Golf Experiment Lab &middot; Nathan Maine &middot; Updated March 31, 2026 (v4) &middot; <a href="https://github.com/NathanMaine/parameter-golf-experiment-lab" target="_blank" style="color: var(--teal);">GitHub Repo</a> &middot; <a href="https://github.com/openai/parameter-golf" target="_blank" style="color: var(--blue);">Official Competition</a>
     </div>
   </div>
 </div>
