@@ -563,16 +563,22 @@
 
     <!-- S0: Community Leaderboard -->
     <div id="s0" class="sec-head"><span>0 — Community Leaderboard (1,259 Submissions)</span><a href="https://github.com/NathanMaine/parameter-golf-experiment-lab/issues/new?labels=feedback&title=Feedback: leaderboard" target="_blank" class="feedback-btn">Give Feedback</a></div>
+    <div class="card" style="margin-bottom: 16px; padding: 16px 20px; border-left: 3px solid var(--teal);">
+      <div style="font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 8px;">Default view: Legal submissions only</div>
+      <div style="font-size: 13px; color: var(--text-dim); line-height: 1.7;">
+        This leaderboard defaults to showing only submissions currently believed to be rule-compliant, based on the TTT legality guidelines established in <a href="https://github.com/openai/parameter-golf/issues/402" target="_blank" style="color: var(--teal);">issue #402</a>. Submissions flagged as <span class="badge badge--red">Illegal</span> (multi-epoch TTT, score-every-epoch) or <span class="badge badge--amber">Suspect</span> (closed by organizers, BPB &lt; 0.5 indicating likely n-gram cache exploits) are filtered out by default. This classification is our best interpretation of the current rules and may not be 100% accurate. To view all submissions, change the filter below to "All Submissions" or use the search bar to find specific PRs by author, number, or technique.
+      </div>
+    </div>
     <div class="card" style="margin-bottom: 16px;">
       <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
         <input type="text" id="lbSearch" placeholder="Search by author, PR#, or technique..." style="flex: 1; min-width: 200px; padding: 8px 12px; background: var(--bg); border: 1px solid var(--border-bright); border-radius: 6px; color: var(--text); font-family: var(--font-mono); font-size: 12px;">
         <select id="lbFilter" style="padding: 8px 12px; background: var(--bg); border: 1px solid var(--border-bright); border-radius: 6px; color: var(--text); font-family: var(--font-mono); font-size: 12px;">
+          <option value="legal" selected>Legal Only (default)</option>
           <option value="all">All Submissions</option>
           <option value="open">Open Only (likely valid)</option>
           <option value="closed">Closed (likely invalid)</option>
           <option value="merged">Merged</option>
           <option value="under16">Under 16MB</option>
-          <option value="legal">Legal Only</option>
           <option value="suspect">Suspect/Illegal</option>
         </select>
         <span id="lbCount" style="font-family: var(--font-mono); font-size: 12px; color: var(--text-dim);">1,259 shown</span>
