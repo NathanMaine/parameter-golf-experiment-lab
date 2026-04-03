@@ -615,25 +615,25 @@
     </div>
 
     <!-- S1a: All Submissions Scatter -->
-    <div id="s1a" class="sec-head"><span>1a — All Submissions by Date (1,259 PRs)</span><a href="https://github.com/NathanMaine/parameter-golf-experiment-lab/issues/new?labels=feedback&title=Feedback: all-submissions-chart" target="_blank" class="feedback-btn">Give Feedback</a></div>
+    <div id="s1a" class="sec-head"><span>1a — Legal Submissions by Date</span><a href="https://github.com/NathanMaine/parameter-golf-experiment-lab/issues/new?labels=feedback&title=Feedback: all-submissions-chart" target="_blank" class="feedback-btn">Give Feedback</a></div>
     <div class="chart-wrap" style="height: 800px;">
       <canvas id="allSubmissionsChart"></canvas>
     </div>
     <div class="card" style="font-size: 12px; color: var(--text-dim);">
-      Each dot is a submission. Color = BPB range. Hover for details. The competition launched March 18 — watch the BPB scores drop as competitors iterated.
+      Each dot is a legal submission (suspect and illegal TTT filtered out). Color = BPB range. Hover for details. The competition launched March 18.
     </div>
 
     <!-- S1b: Top 20 Verified -->
-    <div id="s1b" class="sec-head"><span>1b — Top 20 Verified (Open + Under 16MB)</span><a href="https://github.com/NathanMaine/parameter-golf-experiment-lab/issues/new?labels=feedback&title=Feedback: top-20-chart" target="_blank" class="feedback-btn">Give Feedback</a></div>
+    <div id="s1b" class="sec-head"><span>1b — Top 20 Verified (Legal + Open + Under 16MB)</span><a href="https://github.com/NathanMaine/parameter-golf-experiment-lab/issues/new?labels=feedback&title=Feedback: top-20-chart" target="_blank" class="feedback-btn">Give Feedback</a></div>
     <div class="chart-wrap" style="height: 800px;">
       <canvas id="top20Chart"></canvas>
     </div>
     <div class="card" style="font-size: 12px; color: var(--text-dim);">
-      Only submissions that are <span class="badge badge--green">OPEN</span> and under 16MB. This is the realistic leaderboard — what would actually count if scoring closed today.
+      Only submissions that are <span class="badge badge--green">Legal</span>, <span class="badge badge--green">OPEN</span>, and under 16MB. Suspect and illegal TTT submissions are excluded. This is the realistic leaderboard - what would actually count if scoring closed today.
     </div>
 
     <!-- S1c: Open vs Closed -->
-    <div id="s1c" class="sec-head"><span>1c — Open vs Closed: The Illegal TTT Cliff</span><a href="https://github.com/NathanMaine/parameter-golf-experiment-lab/issues/new?labels=feedback&title=Feedback: open-vs-closed-chart" target="_blank" class="feedback-btn">Give Feedback</a></div>
+    <div id="s1c" class="sec-head"><span>1c — Legal vs Closed vs Suspect: The TTT Cliff</span><a href="https://github.com/NathanMaine/parameter-golf-experiment-lab/issues/new?labels=feedback&title=Feedback: open-vs-closed-chart" target="_blank" class="feedback-btn">Give Feedback</a></div>
     <div class="chart-wrap" style="height: 800px;">
       <canvas id="openClosedChart"></canvas>
     </div>
@@ -642,7 +642,7 @@
     </div>
 
     <!-- S1d: By Technique -->
-    <div id="s1d" class="sec-head"><span>1d — BPB by Technique Category</span><a href="https://github.com/NathanMaine/parameter-golf-experiment-lab/issues/new?labels=feedback&title=Feedback: technique-chart" target="_blank" class="feedback-btn">Give Feedback</a></div>
+    <div id="s1d" class="sec-head"><span>1d — BPB by Technique Category (Legal Only)</span><a href="https://github.com/NathanMaine/parameter-golf-experiment-lab/issues/new?labels=feedback&title=Feedback: technique-chart" target="_blank" class="feedback-btn">Give Feedback</a></div>
     <div class="chart-wrap" style="height: 800px;">
       <canvas id="techniqueChart"></canvas>
     </div>
@@ -2002,9 +2002,18 @@ document.querySelectorAll('#lbTable thead th[data-col]').forEach(th => {
   });
 });
 
+// ===================== Legal filter helper =====================
+function isLegal(d) {
+  if (d.st === 'CLOSED') return false;
+  if (/multi.?epoch|score.?every.?epoch|pre.?eval.?adapt/i.test(d.n || '')) return false;
+  if (d.b < 0.5) return false;
+  return true;
+}
+const LEGAL_DATA = LB_DATA.filter(d => isLegal(d));
+
 // ===================== Chart 1a: All Submissions Scatter =====================
 {
-  const data = LB_DATA.filter(d => d.b > 0.1);
+  const data = LEGAL_DATA.filter(d => d.b > 0.1);
   // Parse dates to x-axis values
   const dateMap = {};
   data.forEach(d => {
@@ -2085,12 +2094,12 @@ document.querySelectorAll('#lbTable thead th[data-col]').forEach(th => {
 
 // ===================== Chart 1b: Top 20 Verified =====================
 {
-  const verified = LB_DATA
+  const verified = LEGAL_DATA
     .filter(d => d.st === 'OPEN' && d.u === 'Yes' && d.b > 0.1)
     .sort((a, b) => a.b - b.b)
     .slice(0, 20);
 
-  const isOurs = (pr) => [273, 385, 406].includes(pr);
+  const isOurs = (pr) => OUR_PRS.includes(pr);
 
   new Chart(document.getElementById('top20Chart').getContext('2d'), {
     type: 'bar',
@@ -2146,8 +2155,9 @@ document.querySelectorAll('#lbTable thead th[data-col]').forEach(th => {
 
 // ===================== Chart 1c: Open vs Closed =====================
 {
-  const openData = LB_DATA.filter(d => d.st === 'OPEN' && d.b > 0.1);
+  const openData = LEGAL_DATA.filter(d => d.st === 'OPEN' && d.b > 0.1);
   const closedData = LB_DATA.filter(d => d.st === 'CLOSED' && d.b > 0.1);
+  const suspectData = LB_DATA.filter(d => !isLegal(d) && d.st !== 'CLOSED' && d.b > 0.1);
 
   new Chart(document.getElementById('openClosedChart').getContext('2d'), {
     type: 'scatter',
@@ -2248,7 +2258,7 @@ document.querySelectorAll('#lbTable thead th[data-col]').forEach(th => {
     'SwiGLU / Star-ReLU': d => /SwiGLU|Star.?ReLU|ReLU|LeakyReLU/i.test(d.n),
   };
 
-  const allData = LB_DATA.filter(d => d.b > 0.1);
+  const allData = LEGAL_DATA.filter(d => d.b > 0.1);
   const techLabels = Object.keys(techniques);
   const techData = techLabels.map(label => {
     const matched = allData.filter(techniques[label]);
