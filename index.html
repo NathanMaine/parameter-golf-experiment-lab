@@ -1975,6 +1975,7 @@ function renderLeaderboard() {
 
 lbSearch.addEventListener('input', renderLeaderboard);
 lbFilter.addEventListener('change', renderLeaderboard);
+lbFilter.value = 'legal';
 renderLeaderboard();
 
 // Make leaderboard table sortable too
