@@ -1918,7 +1918,7 @@ function renderLeaderboard() {
     const name = (d.n || '').toLowerCase();
     if (d.st === 'CLOSED') return 'Suspect';
     if (/multi.?epoch|score.?every.?epoch|pre.?eval.?adapt/i.test(name)) return 'Illegal';
-    if (d.b < 0.5) return 'Suspect';
+    if (d.b < 0.5 || /ngram|n-gram|backoff.*gram|gram.*cache|entropy.*gating.*gram|prefill.*cache/i.test(d.n || '')) return 'Suspect';
     return 'Legal';
   }
 
@@ -2004,9 +2004,11 @@ document.querySelectorAll('#lbTable thead th[data-col]').forEach(th => {
 
 // ===================== Legal filter helper =====================
 function isLegal(d) {
+  const name = (d.n || '').toLowerCase();
   if (d.st === 'CLOSED') return false;
-  if (/multi.?epoch|score.?every.?epoch|pre.?eval.?adapt/i.test(d.n || '')) return false;
+  if (/multi.?epoch|score.?every.?epoch|pre.?eval.?adapt/i.test(name)) return false;
   if (d.b < 0.5) return false;
+  if (/ngram|n-gram|backoff.*gram|gram.*cache|entropy.*gating.*gram|prefill.*cache|dirichlet|phrase.*cache/i.test(name) && d.b < 0.95) return false;
   return true;
 }
 const LEGAL_DATA = LB_DATA.filter(d => isLegal(d));
