@@ -526,7 +526,7 @@
 
   <div class="main">
     <h1>Parameter Golf — <span>Experiment Lab</span></h1>
-    <p class="subtitle">OpenAI Model Craft Challenge &middot; Nathan Maine &middot; March 19 - April 20, 2026</p>
+    <p class="subtitle">OpenAI Model Craft Challenge &middot; Nathan Maine &middot; March 19 - April 21, 2026</p>
 
     <div class="disclaimer">
       <strong>Disclaimer — Unofficial &amp; Independent</strong>
@@ -2123,10 +2123,25 @@
         <div class="tl-text">"Archive synced: 1,683 PRs captured, full-fidelity"</div>
         <div class="tl-sub">Pulled PRs #1633 through #1758 (123 new, 2 skipped as not-PRs, 0 failures). 1,919 new files downloaded, every PR diff preserved 100%. Local archive now 2.3 GB, NAS mirror at 2.6 GB. With 10 days to deadline, the archive represents the full corpus of community research to date.</div>
       </div>
+      <div class="tl-item" style="animation-delay: 3.04s;">
+        <div class="tl-day">Day 34 - April 21</div>
+        <div class="tl-text" style="color: var(--teal);">"DGX Spark dev environment stood up; FA3 on Blackwell is a dead end, FA2 is the workaround"</div>
+        <div class="tl-sub">Brought up a local experiment environment on DGX Spark (GB10, SM12.1, aarch64, CUDA 13.2 forward-compat) using <code>nvcr.io/nvidia/pytorch:26.03-py3</code>. Built FA3 from source in the NGC container per the NVIDIA engineer workaround on the developer forums. Build succeeds after ~50 minutes, <code>import flash_attn_interface</code> works, but any <code>flash_attn_func</code> call fails at runtime with <code>no kernel image is available for execution on the device</code>. Build log shows every kernel object compiled for sm80 or sm90 only. Reported as a data point back to the NVIDIA <a href="https://forums.developer.nvidia.com/t/i-keep-failing-to-install-flash-attention-3-in-the-ltx-2-uv-environment/357560" target="_blank" style="color: var(--teal);">developer forum thread</a> and to <a href="https://github.com/Dao-AILab/flash-attention/issues/1969" target="_blank" style="color: var(--teal);">FA upstream issue #1969</a>. Working solution: use the pre-installed <code>flash_attn</code> 2.7.4 in the same NGC container, which runs bit-exact to <code>torch.nn.functional.scaled_dot_product_attention</code> on GB10. Pattern is consistent with AI2 open-instruct already excluding flash-attn on aarch64.</div>
+      </div>
+      <div class="tl-item" style="animation-delay: 3.12s;">
+        <div class="tl-day">Day 34 - April 21</div>
+        <div class="tl-text">"Surgical MP-SGD port from #1626 into #1667 base"</div>
+        <div class="tl-sub">Ported dexhunter #1626's Multi-Phase Global SGD TTT functions (<code>eval_val_ttt_phased</code>, <code>train_val_ttt_global_sgd_distributed</code>, plus five helpers) into MarioPaerle #1667's base (vanilla SP8192 + SmearGate + AttnOutGate). Added <code>PHASED_TTT_ENABLED</code> gate so one file runs single-phase or multi-phase TTT. Compute-capability detection forces FA2 on Blackwell automatically. <code>torch.compile</code> disable flag for GB10's 101KB shared-memory limit on Triton kernels. Audited each of Issue #1017's four conditions against the ported code.</div>
+      </div>
+      <div class="tl-item" style="animation-delay: 3.20s;">
+        <div class="tl-day">Day 34 - April 21</div>
+        <div class="tl-text">"Overnight ablation pipeline running: 9 experiments queued on Spark"</div>
+        <div class="tl-sub">Pipeline compares pr1667 baseline, no-TTT baseline, MP-SGD 1-phase, MP-SGD 3-phase, Tapered WD, MP-SGD + Tapered WD, and gate-ablations (SmearGate off, AttnOutGate off, both off). Each experiment timeboxed to 60 min at reduced GB10 scale. Scale gap vs 8xH100 production means absolute BPB values do not match the leaderboard, but relative comparisons are apples-to-apples across configurations. 30-min health-check cycle runs alert-on-failure only. Full results in the next update.</div>
+      </div>
     </div>
 
     <div class="footer">
-      Parameter Golf Experiment Lab &middot; Nathan Maine &middot; Updated April 20, 2026 (v11) &middot; <a href="https://github.com/NathanMaine/parameter-golf-experiment-lab" target="_blank" style="color: var(--teal);">GitHub Repo</a> &middot; <a href="https://github.com/openai/parameter-golf" target="_blank" style="color: var(--blue);">Official Competition</a>
+      Parameter Golf Experiment Lab &middot; Nathan Maine &middot; Updated April 21, 2026 (v12) &middot; <a href="https://github.com/NathanMaine/parameter-golf-experiment-lab" target="_blank" style="color: var(--teal);">GitHub Repo</a> &middot; <a href="https://github.com/openai/parameter-golf" target="_blank" style="color: var(--blue);">Official Competition</a>
     </div>
   </div>
 </div>
