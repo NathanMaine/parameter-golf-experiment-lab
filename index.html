@@ -663,7 +663,7 @@
       <canvas id="bpbChart"></canvas>
     </div>
     <div class="card" style="font-size: 13px; color: var(--text-dim);">
-      <strong style="color: var(--text);">Reading the chart:</strong> Lower BPB is better. The green zone shows verified legal scores. The red zone below 1.10 contains submissions using illegal multi-epoch TTT, all closed by organizers. Our best verified-legal number is 1.1048 (#1287, no SLOT). #1291 at 1.0925 is parked pending SLOT legality ruling (Issue #1336). We retracted #1193, #406, and #1127 for TTT-on-val on April 13. As of April 20, the sub-1.01 cluster has multiplied: dexhunter #1586 still holds 1.0000 BPB, but aamodbhatt #1711 (1.00980), arsenis-cmd #1698 (1.00995), yahya010 #1734 (1.01080), and andrewbaggio1 #1672 (1.01195) have reproduced it with GatedDeltaNet + Legal Score-First TTT + Brotli-11 as the emerging recipe. 10 days to deadline.
+      <strong style="color: var(--text);">Reading the chart:</strong> Lower BPB is better. The green zone shows verified legal scores. The red zone below 1.10 contains submissions using illegal multi-epoch TTT, all closed by organizers. Our best verified-legal number is 1.1048 (#1287, no SLOT). #1291 at 1.0925 is parked pending SLOT legality ruling (Issue #1336). We retracted #1193, #406, and #1127 for TTT-on-val on April 13. <strong style="color: var(--amber);">Important correction:</strong> between April 15-19 a byte-counting bug in <code>build_sentencepiece_luts</code> (tracked in Issue #1719) was discovered in the GDN-family submissions. The `+1` on leading-space bytes double-counts the denominator, inflating reported BPB by ~17%. PRs #1632, #1672, #1681, #1687, #1705, #1711, #1734 all self-closed after canonical rescoring put them in the 1.18-1.22 range. #1698 at reported 1.00995 is still open but flagged. The real canonical frontier right now sits around <strong>1.057 (dexhunter #1693, Casefold V4 + Multi-Phase Global SGD TTT)</strong>. 10 days to deadline.
     </div>
 
     <!-- S2: All Experiments -->
@@ -2109,11 +2109,16 @@
         <div class="tl-sub">@BenjaminBossan agreed the helpful error message is valuable, but the Gemma 4 specific fix became redundant after PR #3136 merged. Closed #3154 and invited a broader redesign: general "invalid target module" error handler for all PEFT methods (LoRA, IA3, LoKr, LoHa, OFT), starting with LoRA but designed to extend. Scope agreed, tests will be written first.</div>
       </div>
       <div class="tl-item" style="animation-delay: 2.80s;">
-        <div class="tl-day">Day 30-33 - April 17-20</div>
-        <div class="tl-text" style="color: var(--amber);">"The sub-1.01 cluster: GatedDeltaNet + Legal TTT + Brotli is the new recipe"</div>
-        <div class="tl-sub">Four independent teams converged near 1.01 BPB in the last week. aamodbhatt #1711 (1.00980, GatedDeltaNet FLA + Score-First TTT + Brotli), arsenis-cmd #1698 (1.00995, GatedDeltaNet + Legal TTT), yahya010 #1734 (1.01080, same stack, VA label), andrewbaggio1 #1672 (1.01195, GDN-Hybrid + TMA Megakernel + Brotli). dexhunter #1586 1.0000 no longer alone at the top - the frontier has reproduced.</div>
+        <div class="tl-day">Day 30-32 - April 15-19</div>
+        <div class="tl-text" style="color: var(--red);">"The byte-LUT bug: the GDN sub-1.01 cluster was an accounting artifact"</div>
+        <div class="tl-sub">Between April 15-19, @tejasnaladala, @dexhunter, and @bigbag forensically identified a byte-counting defect in <code>build_sentencepiece_luts</code> that originated in PR #1545 and propagated through every GDN-family inheritance. Leading-space bytes were being added twice, shrinking the BPB denominator and inflating reported scores by ~17.46%. PRs #1545, #1576, #1632, #1672, #1681, #1687, #1705, #1711, #1734 all self-closed after canonical rescoring. The reported "sub-1.01 cluster" did not hold - yahya010's own canonical check on #1734 put the 1.01080 at ~1.187. #1698 at reported 1.00995 remains open but flagged. Issue #1719 tracks the bug class.</div>
       </div>
       <div class="tl-item" style="animation-delay: 2.88s;">
+        <div class="tl-day">Day 30-33 - April 15-20</div>
+        <div class="tl-text" style="color: var(--green);">"The real canonical frontier: casefold tokenizers + MP-SGD TTT at 1.057-1.072"</div>
+        <div class="tl-sub">After filtering out byte-buggy inheritance and pending-legality SLOT submissions, the legitimate open frontier lands in the 1.057-1.072 band. Top clean legal open: dexhunter #1693 (1.05733, Casefold V4 + AttnOutGate + Multi-Phase Global SGD TTT), #1670 (1.05970, same family), codemath3000 #1585 (1.0639, Casefold + Parallel Residuals), romeerp #1756 (1.06505, CaseOps + Recurrence Depth Curriculum), mikeapedia #1578 (1.0668, Custom Casefold), yahya010 #1727 (1.07217, SP8192 MP-SGD 4-phase), jorge-asenjo #1700 (1.07219, same base). Custom casefold-style tokenization + Multi-Phase SGD TTT is doing more work than the rest of the stack.</div>
+      </div>
+      <div class="tl-item" style="animation-delay: 2.96s;">
         <div class="tl-day">Day 33 - April 20</div>
         <div class="tl-text">"Archive synced: 1,683 PRs captured, full-fidelity"</div>
         <div class="tl-sub">Pulled PRs #1633 through #1758 (123 new, 2 skipped as not-PRs, 0 failures). 1,919 new files downloaded, every PR diff preserved 100%. Local archive now 2.3 GB, NAS mirror at 2.6 GB. With 10 days to deadline, the archive represents the full corpus of community research to date.</div>
@@ -2121,7 +2126,7 @@
     </div>
 
     <div class="footer">
-      Parameter Golf Experiment Lab &middot; Nathan Maine &middot; Updated April 20, 2026 (v10) &middot; <a href="https://github.com/NathanMaine/parameter-golf-experiment-lab" target="_blank" style="color: var(--teal);">GitHub Repo</a> &middot; <a href="https://github.com/openai/parameter-golf" target="_blank" style="color: var(--blue);">Official Competition</a>
+      Parameter Golf Experiment Lab &middot; Nathan Maine &middot; Updated April 20, 2026 (v11) &middot; <a href="https://github.com/NathanMaine/parameter-golf-experiment-lab" target="_blank" style="color: var(--teal);">GitHub Repo</a> &middot; <a href="https://github.com/openai/parameter-golf" target="_blank" style="color: var(--blue);">Official Competition</a>
     </div>
   </div>
 </div>
